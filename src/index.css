@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes framePulse {
+  0% { border-color: var(--frame-color); }
+  50% { border-color: color-mix(in srgb, var(--frame-color) 70%, white); }
+  100% { border-color: var(--frame-color); }
+}
+
+.dynamic-frame {
+  --frame-color: var(--user-frame-color, #000);
+}
