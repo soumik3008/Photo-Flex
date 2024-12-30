@@ -16,13 +16,20 @@ const TopBar: React.FC<TopBarProps> = ({
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onFileUpload(event); // Call the passed `onFileUpload` function
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // Reset the input value
+    }
+  };
+
   return (
     <div className="h-14 bg-white border-b border-gray-200 px-4 flex items-center justify-between">
       <div className="flex items-center space-x-4">
         <input
           type="file"
           ref={fileInputRef}
-          onChange={onFileUpload}
+          onChange={handleFileUpload} // Use the local `handleFileUpload` function
           accept="image/*"
           className="hidden"
         />
@@ -52,7 +59,12 @@ const TopBar: React.FC<TopBarProps> = ({
         <button 
           className="flex items-center space-x-2 px-3 py-1.5 text-sm border border-red-300 text-red-600 rounded-md hover:bg-red-50"
           disabled={!hasImage}
-          onClick={onRemoveImage}
+          onClick={() => {
+            onRemoveImage();
+            if (fileInputRef.current) {
+              fileInputRef.current.value = ""; // Reset the input value on image removal
+            }
+          }}
         >
           <Trash2 size={18} />
           <span>Remove</span>
@@ -75,5 +87,4 @@ const TopBar: React.FC<TopBarProps> = ({
     </div>
   );
 };
-
 export default TopBar;
